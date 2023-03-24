@@ -38,7 +38,7 @@ function App() {
 
   const init = async () => {
     const token = localStorage.getItem('token');
-    const response = await axios.get('/api/auth/init', { params: { token } });
+    const response = await axios.get('https://server-backend-forum.onrender.com/api/auth/init', { params: { token } });
     const { user } = response.data;
     //setUser(user);
     setIsInitiated(true);

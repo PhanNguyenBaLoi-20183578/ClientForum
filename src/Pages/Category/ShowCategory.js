@@ -21,11 +21,11 @@ export default function ShowCategory() {
   }, []);
 
   const getCategory = async () => {
-    const response = await axios.get('/api/category/' + id);
+    const response = await axios.get('https://server-backend-forum.onrender.com/api/category/' + id);
     setCategory(response.data);
   };
   const getFora = async () => {
-    const response = await axios.get('/api/forum/category/' + id);
+    const response = await axios.get('https://server-backend-forum.onrender.com/api/forum/category/' + id);
     setFora(response.data);
   };
   const { user } = useContext(AuthContext);

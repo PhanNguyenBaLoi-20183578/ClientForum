@@ -58,7 +58,7 @@ export default function LogIn() {
     };
 
     try {
-      const response = await axios.post('/api/auth/login', data);
+      const response = await axios.post('https://server-backend-forum.onrender.com/api/auth/login', data);
       //sai chinh ta data->date=>buggggg
       const { token, user } = response.data;
       //luu key item token user

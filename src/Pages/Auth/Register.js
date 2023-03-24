@@ -61,7 +61,7 @@ export default function SignUp() {
     };
 
     try {
-      await axios.post('/api/auth/register', data);
+      await axios.post('https://server-backend-forum.onrender.com/api/auth/register', data);
       alert("Đăng ký thành công");
       navigate('/auth/login');
 

@@ -22,11 +22,11 @@ export default function ShowForum() {
   const getForum = async () => {
     //thieu id,vv
     //const response = await axios.get('/api/forum/');
-    const response = await axios.get('/api/forum/' + id);
+    const response = await axios.get('https://server-backend-forum.onrender.com/api/forum/' + id);
     setForum(response.data);
   };
   const getThread = async () => {
-    const response = await axios.get('/api/thread/forum/' + id);
+    const response = await axios.get('https://server-backend-forum.onrender.com/api/thread/forum/' + id);
     setThreads(response.data);
   };
   const deleteCategories = async (value, e) => {

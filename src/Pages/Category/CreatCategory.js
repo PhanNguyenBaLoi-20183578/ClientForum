@@ -13,7 +13,7 @@ const CreateCategory = () => {
       title,
     };
     //thieu dau /trong /api=> sai dia chi,ko post dc.vc
-    const response = await axios.post('/api/category/create', data);
+    const response = await axios.post('https://server-backend-forum.onrender.com/api/category/create', data);
     const { _id } = response.data;
     navigate('/category/' + _id);
   };

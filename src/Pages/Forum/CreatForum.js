@@ -14,7 +14,7 @@ const CreateForum = () => {
       categoryId: id,
     };
     //thieu dau /trong /api=> sai dia chi,ko post dc.vc
-    const response = await axios.post('/api/forum/create', data);
+    const response = await axios.post('https://server-backend-forum.onrender.com/api/forum/create', data);
     const { _id } = response.data;
     navigate('/forum/' + _id);
   };

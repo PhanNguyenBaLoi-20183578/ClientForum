@@ -26,11 +26,11 @@ export default function ShowThread() {
   }, []);
 
   const getThread = async () => {
-    const response = await axios.get('/api/thread/' + id);
+    const response = await axios.get('https://server-backend-forum.onrender.com/api/thread/' + id);
     setThread(response.data);
   };
   const getPosts = async () => {
-    const response = await axios.get('/api/post/thread/' + id, {
+    const response = await axios.get('https://server-backend-forum.onrender.com/api/post/thread/' + id, {
       params: {
         page,
       },
@@ -45,7 +45,7 @@ export default function ShowThread() {
   };
   const deleteCategories =  (value, e) => {
     alert(value);
-    const response = axios.get('/api/post/delete/' + value);
+    const response = axios.get('https://server-backend-forum.onrender.com/api/post/delete/' + value);
     alert("success");
     navigate('/');
   };
@@ -57,7 +57,7 @@ export default function ShowThread() {
       threadId: thread._id,
       content: replyContent,
     };
-    const response = await axios.post('/api/post/create', data);
+    const response = await axios.post('https://server-backend-forum.onrender.com/api/post/create', data);
     var datares = response.data;
     if (response.data == 'spam') {
       datares = { content: 'you are spam' };

@@ -19,7 +19,7 @@ const CreateThread = () => {
       forumId: id,
     };
     //thieu dau /trong /api=> sai dia chi,ko post dc.vc
-    const response = await axios.post('/api/thread/create', data);
+    const response = await axios.post('https://server-backend-forum.onrender.com/api/thread/create', data);
     const { _id } = response.data;
     navigate('/thread/' + _id);
   };
