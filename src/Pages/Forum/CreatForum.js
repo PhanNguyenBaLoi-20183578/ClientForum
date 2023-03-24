@@ -1,9 +1,10 @@
 import { Button, TextField } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import AuthContext from '../../Contexts/AuthContext';
 const CreateForum = () => {
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
@@ -12,9 +13,13 @@ const CreateForum = () => {
     const data = {
       title,
       categoryId: id,
+      userId: user._id,
     };
     //thieu dau /trong /api=> sai dia chi,ko post dc.vc
-    const response = await axios.post('https://server-backend-forum.onrender.com/api/forum/create', data);
+    const response = await axios.post(
+      'https://server-backend-forum.onrender.com/api/forum/create',
+      data,
+    );
     const { _id } = response.data;
     navigate('/forum/' + _id);
   };

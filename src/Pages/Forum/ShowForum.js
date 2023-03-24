@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import './Forum.css';
 import Grid from '@mui/material/Grid';
-
+import AuthContext from '../../Contexts/AuthContext';
 export default function ShowForum() {
+  const { user } = useContext(AuthContext);
   const [forum, setForum] = useState(null);
   const [threads, setThreads] = useState([]);
   const { id } = useParams();
@@ -20,17 +20,33 @@ export default function ShowForum() {
   }, []);
 
   const getForum = async () => {
-    //thieu id,vv
-    //const response = await axios.get('/api/forum/');
-    const response = await axios.get('https://server-backend-forum.onrender.com/api/forum/' + id);
+    const response = await axios.get(
+      'https://server-backend-forum.onrender.com/api/forum/' + id,
+    );
     setForum(response.data);
   };
   const getThread = async () => {
-    const response = await axios.get('https://server-backend-forum.onrender.com/api/thread/forum/' + id);
+    const response = await axios.get(
+      'https://server-backend-forum.onrender.com/api/thread/forum/' + id,
+    );
     setThreads(response.data);
   };
   const deleteCategories = async (value, e) => {
-    alert(value);
+    if (user == null) {
+      alert('Bạn cần đăng nhập');
+      navigate('/auth/login');
+      return;
+    } else {
+      const dataSend = {
+        id: user._id,
+      };
+      const response = await axios.post(
+        'https://server-backend-forum.onrender.com/api/thread/delete/' + value,
+        dataSend,
+      );
+      alert(response.data);
+      navigate('/');
+    }
   };
   const navigate = useNavigate();
   return (
@@ -38,14 +54,23 @@ export default function ShowForum() {
       <div style={{ padding: '2rem' }}>
         <div class="header">
           {forum && (
-            <h1 class="header">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Icon-round-Question_mark.svg/2048px-Icon-round-Question_mark.svg.png"
-                width="40"
-                height="40"
-              ></img>
-              {forum.title}
-            </h1>
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid item xs={1}>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Icon-round-Question_mark.svg/2048px-Icon-round-Question_mark.svg.png"
+                  width="70"
+                  height="70"
+                ></img>
+              </Grid>
+              <Grid item xs={11}>
+                <h1>{forum.title}</h1>
+              </Grid>
+            </Grid>
           )}
         </div>
 

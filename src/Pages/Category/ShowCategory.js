@@ -8,6 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import AuthContext from '../../Contexts/AuthContext';
 import { useParams } from 'react-router-dom';
 import './Category.css';
+import Grid from '@mui/material/Grid';
 
 export default function ShowCategory() {
   const navigate = useNavigate();
@@ -21,11 +22,15 @@ export default function ShowCategory() {
   }, []);
 
   const getCategory = async () => {
-    const response = await axios.get('https://server-backend-forum.onrender.com/api/category/' + id);
+    const response = await axios.get(
+      'https://server-backend-forum.onrender.com/api/category/' + id,
+    );
     setCategory(response.data);
   };
   const getFora = async () => {
-    const response = await axios.get('https://server-backend-forum.onrender.com/api/forum/category/' + id);
+    const response = await axios.get(
+      'https://server-backend-forum.onrender.com/api/forum/category/' + id,
+    );
     setFora(response.data);
   };
   const { user } = useContext(AuthContext);
@@ -38,7 +43,21 @@ export default function ShowCategory() {
     }
   };
   const deleteCategories = async (value, e) => {
-    alert(value);
+    if (user == null) {
+      alert('Bạn cần đăng nhập');
+      navigate('/auth/login');
+      return;
+    } else {
+      const dataSend = {
+        isAdmin: user.isAdmin,
+      };
+      const response = await axios.post(
+        'https://server-backend-forum.onrender.com/api/forum/delete/' + value,
+        dataSend,
+      );
+      alert(response.data);
+      navigate('/');
+    }
   };
 
   return (
@@ -46,14 +65,24 @@ export default function ShowCategory() {
       <div style={{ padding: '2rem' }}>
         <div class="header">
           {category && (
-            <h1 class="header">
-              <img
-                src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTEwL3JtNTM1LWJvb2stMDIucG5n.png"
-                width="40"
-                height="40"
-              ></img>
-              {category.title}
-            </h1>
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid item xs={1}>
+                <img
+                  src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTEwL3JtNTM1LWJvb2stMDIucG5n.png"
+                  width="70"
+                  height="70"
+                ></img>
+              </Grid>
+              <Grid item xs={11}>
+              <h1>{category.title}</h1>
+                
+              </Grid>
+            </Grid>
           )}
         </div>
 

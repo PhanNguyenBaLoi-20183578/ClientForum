@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Await, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import { useParams } from 'react-router-dom';
@@ -26,15 +26,20 @@ export default function ShowThread() {
   }, []);
 
   const getThread = async () => {
-    const response = await axios.get('https://server-backend-forum.onrender.com/api/thread/' + id);
+    const response = await axios.get(
+      'https://server-backend-forum.onrender.com/api/thread/' + id,
+    );
     setThread(response.data);
   };
   const getPosts = async () => {
-    const response = await axios.get('https://server-backend-forum.onrender.com/api/post/thread/' + id, {
-      params: {
-        page,
+    const response = await axios.get(
+      'https://server-backend-forum.onrender.com/api/post/thread/' + id,
+      {
+        params: {
+          page,
+        },
       },
-    });
+    );
     if (response.data.length) {
       setPosts(response.data);
       setPage(page + 1);
@@ -43,11 +48,22 @@ export default function ShowThread() {
       setHasMore(false);
     }
   };
-  const deleteCategories =  (value, e) => {
-    alert(value);
-    const response = axios.get('https://server-backend-forum.onrender.com/api/post/delete/' + value);
-    alert("success");
-    navigate('/');
+  const deleteCategories = async (value, e) => {
+    if (user == null) {
+      alert('Bạn cần đăng nhập');
+      navigate('/auth/login');
+      return;
+    } else {
+      const dataSend = {
+        id: user._id,
+      };
+      const response = await axios.post(
+        'https://server-backend-forum.onrender.com/api/post/delete/' + value,
+        dataSend,
+      );
+      alert(response.data);
+      navigate('/');
+    }
   };
   const handleReply = async (event) => {
     event.preventDefault();
@@ -57,7 +73,10 @@ export default function ShowThread() {
       threadId: thread._id,
       content: replyContent,
     };
-    const response = await axios.post('https://server-backend-forum.onrender.com/api/post/create', data);
+    const response = await axios.post(
+      'https://server-backend-forum.onrender.com/api/post/create',
+      data,
+    );
     var datares = response.data;
     if (response.data == 'spam') {
       datares = { content: 'you are spam' };
@@ -73,7 +92,7 @@ export default function ShowThread() {
           <div class="header">
             <Grid container spacing={2}>
               <Grid item xs={1} md={1}>
-                <font>{thread.name}</font>
+                <h4>{thread.name}</h4>
                 <img src={thread.image} width="70" height="70"></img>
               </Grid>
               <Grid item xs={11} md={11}>
@@ -132,7 +151,9 @@ export default function ShowThread() {
             value={replyContent}
             onChange={(e) => setReplyContent(e.target.value)}
           />
-          <Button type="submit">Reply</Button>
+          <Button type="submit" onClick={() => alert('Bạn chưa đăng nhập')}>
+            Reply
+          </Button>
         </form>
       )}
     </div>

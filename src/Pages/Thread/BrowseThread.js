@@ -15,7 +15,9 @@ export default function BrowserThread() {
   }, []);
 
   const getForum = async () => {
-    const response = await axios.get('https://server-backend-forum.onrender.com/api/forum');
+    const response = await axios.get(
+      'https://server-backend-forum.onrender.com/api/forum',
+    );
     setForum(response.data);
   };
   const navigate = useNavigate();

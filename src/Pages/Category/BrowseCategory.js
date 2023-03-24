@@ -16,7 +16,9 @@ export default function BrowserCategory() {
   }, []);
 
   const getCategories = async () => {
-    const response = await axios.get('https://server-backend-forum.onrender.com/api/category');
+    const response = await axios.get(
+      'https://server-backend-forum.onrender.com/api/category',
+    );
     setCategories(response.data);
   };
   const handleCreat = async (event) => {

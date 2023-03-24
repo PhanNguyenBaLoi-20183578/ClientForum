@@ -20,7 +20,7 @@ import { dataImg } from '../../Apis/dataImg';
 const theme = createTheme();
 
 export default function SignUp() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState(null);
   const [email, setEmail] = useState('');
@@ -61,8 +61,11 @@ export default function SignUp() {
     };
 
     try {
-      await axios.post('https://server-backend-forum.onrender.com/api/auth/register', data);
-      alert("Đăng ký thành công");
+      await axios.post(
+        'https://server-backend-forum.onrender.com/api/auth/register',
+        data,
+      );
+      alert('Đăng ký thành công');
       navigate('/auth/login');
 
       //console.log(data);
